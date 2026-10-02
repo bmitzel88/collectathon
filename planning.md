@@ -13,9 +13,14 @@ We know the main idea of the game is collecting coins, and your number goes up. 
 
 ## Planning required changes
 We need to:
-Change the speed of the character
+Change the speed of the character (Change speed to 2 and see how that is first)
 Change the background color
 Change the starting position of the player and dot
-Make START trigger a game restart
+Make START button trigger a game restart
+Make it so the player loops around the screen
+Make a speed boost
 
+## Brainstorming game ideas
+
+## Plan for implementing game
 
