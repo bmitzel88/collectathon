@@ -12,8 +12,10 @@ We know the main idea of the game is collecting coins, and your number goes up. 
 - Dont quite understand yet how coins/treasure is collected.
 
 ## Planning required changes
+We need to:
+Change the speed of the character
+Change the background color
+Change the starting position of the player and dot
+Make START trigger a game restart
 
-## Brainstorming game ideas
-
-## Plan for implementing game
 
