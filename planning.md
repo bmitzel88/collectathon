@@ -12,7 +12,7 @@ We know the main idea of the game is collecting coins, and your number goes up. 
 - Dont quite understand yet how coins/treasure is collected.
 
 ## Planning required changes
-
+I will change the speed to 2 and see how it is from there
 ## Brainstorming game ideas
 
 ## Plan for implementing game
