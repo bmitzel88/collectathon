@@ -10,7 +10,6 @@
 #include <bn_string.h>
 #include <bn_backdrop.h>
 #include <bn_color.h>
-
 #include "bn_sprite_items_dot.h"
 #include "bn_sprite_items_square.h"
 #include "common_fixed_8x16_font.h"
@@ -35,11 +34,17 @@ static constexpr int MAX_SCORE_CHARS = 11;
 static constexpr int SCORE_X = 70;
 static constexpr int SCORE_Y = -70;
 
+// Player and Dot start position
+
+static constexpr int PLAYER_START_X = -110;
+static constexpr int PLAYER_START_Y = -40;
+
+static constexpr int DOT_START_X = 0;
+static constexpr int DOT_START_Y = 0;
+
 int main()
 {
     bn::core::init();
-
-    bn::backdrop::set_color(bn::color(14, 25, 31)); //sky blue backdrop color
 
     bn::random rng = bn::random();
 
@@ -49,8 +54,8 @@ int main()
 
     int score = 0;
 
-    bn::sprite_ptr player = bn::sprite_items::square.create_sprite(-50, 50);
-    bn::sprite_ptr treasure = bn::sprite_items::dot.create_sprite(0, 0);
+    bn::sprite_ptr player = bn::sprite_items::square.create_sprite(PLAYER_START_X, PLAYER_START_Y);
+    bn::sprite_ptr treasure = bn::sprite_items::dot.create_sprite(DOT_START_X, DOT_START_Y);
 
     while (true)
     {
