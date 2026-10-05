@@ -35,6 +35,14 @@ static constexpr int MAX_SCORE_CHARS = 11;
 static constexpr int SCORE_X = 70;
 static constexpr int SCORE_Y = -70;
 
+// Player starting location
+static constexpr int player_start_pos_x = -50;
+static constexpr int player_start_pos_y = 0;
+
+// Dot starting position
+static constexpr int dot_start_pos_x = 50;
+static constexpr int dot_start_pos_y = 0;
+
 int main()
 {
     bn::core::init();
@@ -49,8 +57,8 @@ int main()
 
     int score = 0;
 
-    bn::sprite_ptr player = bn::sprite_items::square.create_sprite(-50, 50);
-    bn::sprite_ptr treasure = bn::sprite_items::dot.create_sprite(0, 0);
+    bn::sprite_ptr player = bn::sprite_items::square.create_sprite(player_start_pos_x, player_start_pos_y);
+    bn::sprite_ptr treasure = bn::sprite_items::dot.create_sprite(dot_start_pos_x, dot_start_pos_y);
 
     while (true)
     {
