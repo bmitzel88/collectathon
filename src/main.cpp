@@ -10,7 +10,6 @@
 #include <bn_string.h>
 #include <bn_backdrop.h>
 #include <bn_color.h>
-
 #include "bn_sprite_items_dot.h"
 #include "bn_sprite_items_square.h"
 #include "common_fixed_8x16_font.h"
@@ -46,8 +45,6 @@ static constexpr int dot_start_pos_y = 0;
 int main()
 {
     bn::core::init();
-
-    bn::backdrop::set_color(bn::color(14, 25, 31)); //sky blue backdrop color
 
     bn::random rng = bn::random();
 
