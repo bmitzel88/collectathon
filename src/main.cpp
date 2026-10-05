@@ -42,6 +42,8 @@ static constexpr int player_start_pos_y = 0;
 static constexpr int dot_start_pos_x = 50;
 static constexpr int dot_start_pos_y = 0;
 
+// this is a test
+
 int main()
 {
     bn::core::init();
