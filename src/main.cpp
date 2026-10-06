@@ -16,6 +16,7 @@
 
 // Pixels / Frame player moves at
 static constexpr bn::fixed SPEED = 2; // Changed speed from 1 to 2
+static constexpr bn::fixed SPEEDBOOST = 3;
 
 // Width and height of the the player and treasure bounding boxes
 static constexpr bn::size PLAYER_SIZE = {8, 8};
@@ -60,6 +61,7 @@ int main()
     bn::sprite_text_generator text_generator(common::fixed_8x16_sprite_font);
 
     int score = 0;
+    int SPEEDBOOST_USED = 0;
 
     bn::sprite_ptr player = bn::sprite_items::square.create_sprite(player_start_pos_x, player_start_pos_y);
     bn::sprite_ptr treasure = bn::sprite_items::dot.create_sprite(dot_start_pos_x, dot_start_pos_y);
@@ -102,6 +104,27 @@ int main()
             player.set_y(top_edge);
         }
 
+        // If START is pressed restart the game
+        if (bn::keypad::start_pressed())
+        {
+            score = 0;
+            player.set_position(player_start_pos_x, player_start_pos_y);
+            treasure.set_position(dot_start_pos_x, dot_start_pos_y);
+        }
+
+        // Speed boost (Three times maximum per game)
+        if (bn::keypad::left_held() && bn::keypad::a_pressed())
+        {
+            player.set_x(player.x() - SPEEDBOOST);
+            SPEEDBOOST_USED++;
+        }
+
+        if (bn::keypad::right_held() && bn::keypad::a_pressed())
+        {
+            player.set_x(player.x() + SPEEDBOOST);
+            SPEEDBOOST_USED++;
+        }
+
         // The bounding boxes of the player and treasure, snapped to integer pixels
         bn::rect player_rect = bn::rect(player.x().round_integer(),
                                         player.y().round_integer(),
@@ -134,7 +157,8 @@ int main()
         rng.update();
 
         // If the player hits start the game restarts
-        if (bn::keypad::start_pressed()){
+        if (bn::keypad::start_pressed())
+        {
             player.set_position(player_start_pos_x, player_start_pos_y);
             treasure.set_position(dot_start_pos_x, dot_start_pos_y);
 
