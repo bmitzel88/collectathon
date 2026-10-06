@@ -102,14 +102,6 @@ int main()
             player.set_y(top_edge);
         }
 
-        // If START is pressed restart the game
-        if (bn::keypad::start_pressed())
-        {
-            score = 0;
-            player.set_position(player_start_pos_x, player_start_pos_y);
-            treasure.set_position(dot_start_pos_x, dot_start_pos_y);
-        }
-
         // The bounding boxes of the player and treasure, snapped to integer pixels
         bn::rect player_rect = bn::rect(player.x().round_integer(),
                                         player.y().round_integer(),
@@ -143,11 +135,8 @@ int main()
 
         // If the player hits start the game restarts
         if (bn::keypad::start_pressed()){
-            player.set_x(player_start_pos_x);
-            player.set_y(player_start_pos_y);
-
-            treasure.set_x(dot_start_pos_x);
-            treasure.set_y(dot_start_pos_y);
+            player.set_position(player_start_pos_x, player_start_pos_y);
+            treasure.set_position(dot_start_pos_x, dot_start_pos_y);
 
             score = 0;
         }
