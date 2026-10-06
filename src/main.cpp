@@ -16,6 +16,7 @@
 
 // Pixels / Frame player moves at
 static constexpr bn::fixed SPEED = 2; // Changed speed from 1 to 2
+static constexpr bn::fixed boost_speed = 4;
 
 // Width and height of the the player and treasure bounding boxes
 static constexpr bn::size PLAYER_SIZE = {8, 8};
@@ -61,27 +62,57 @@ int main()
 
     int score = 0;
 
+    // Speed boost variables
+    int boosts = 3;
+    bool is_boosting = false;
+    int boost_frame_counter = 0;
+
     bn::sprite_ptr player = bn::sprite_items::square.create_sprite(player_start_pos_x, player_start_pos_y);
     bn::sprite_ptr treasure = bn::sprite_items::dot.create_sprite(dot_start_pos_x, dot_start_pos_y);
 
     while (true)
     {
-        // Move player with d-pad
+        // Handle Boost Activation & Timer
+        if (!is_boosting)
+        {
+            if (bn::keypad::a_pressed() && boosts > 0)
+            {
+                is_boosting = true;
+                boosts--;
+                boost_frame_counter = 0; // Reset timer for this boost instance
+            }
+        }
+        else
+        {
+            // Increment the counter only while actively boosting
+            boost_frame_counter++;
+
+            if (boost_frame_counter >= 120)
+            {
+                is_boosting = false; // Turn off the boost
+                boost_frame_counter = 0;
+            }
+        }
+
+        // Determine player speed for this frame
+        bn::fixed current_speed = is_boosting ? boost_speed : SPEED;
+
+        // Move player using the determined speed
         if (bn::keypad::left_held())
         {
-            player.set_x(player.x() - SPEED);
+            player.set_x(player.x() - current_speed);
         }
         if (bn::keypad::right_held())
         {
-            player.set_x(player.x() + SPEED);
+            player.set_x(player.x() + current_speed);
         }
         if (bn::keypad::up_held())
         {
-            player.set_y(player.y() - SPEED);
+            player.set_y(player.y() - current_speed);
         }
         if (bn::keypad::down_held())
         {
-            player.set_y(player.y() + SPEED);
+            player.set_y(player.y() + current_speed);
         }
 
         // Send the player to the other side of the screen when they go out of bounds
@@ -137,6 +168,7 @@ int main()
         if (bn::keypad::start_pressed()){
             player.set_position(player_start_pos_x, player_start_pos_y);
             treasure.set_position(dot_start_pos_x, dot_start_pos_y);
+            boosts = 3;
 
             score = 0;
         }
