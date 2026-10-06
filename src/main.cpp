@@ -42,6 +42,10 @@ static constexpr int player_start_pos_y = 0;
 static constexpr int dot_start_pos_x = 50;
 static constexpr int dot_start_pos_y = 0;
 
+// Screen Edges
+static constexpr int left_edge = -120;
+static constexpr int right_edge = 120;
+
 // this is a test
 
 int main()
@@ -77,6 +81,16 @@ int main()
         if (bn::keypad::down_held())
         {
             player.set_y(player.y() + SPEED);
+        }
+
+        // Send the player to the other side of the screen when they go out of bounds
+        if (bn::keypad::right_held() && player.x() == right_edge)
+        {
+            player.set_x(left_edge);
+        }
+        if (bn::keypad::left_held() && player.x() == left_edge)
+        {
+            player.set_x(right_edge);
         }
 
         // The bounding boxes of the player and treasure, snapped to integer pixels
