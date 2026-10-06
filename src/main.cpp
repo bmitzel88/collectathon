@@ -133,6 +133,27 @@ int main()
             player.set_y(top_edge);
         }
 
+        // If START is pressed restart the game
+        if (bn::keypad::start_pressed())
+        {
+            score = 0;
+            player.set_position(player_start_pos_x, player_start_pos_y);
+            treasure.set_position(dot_start_pos_x, dot_start_pos_y);
+        }
+
+        // Speed boost (Three times maximum per game)
+        if (bn::keypad::left_held() && bn::keypad::a_pressed())
+        {
+            player.set_x(player.x() - SPEEDBOOST);
+            SPEEDBOOST_USED++;
+        }
+
+        if (bn::keypad::right_held() && bn::keypad::a_pressed())
+        {
+            player.set_x(player.x() + SPEEDBOOST);
+            SPEEDBOOST_USED++;
+        }
+
         // The bounding boxes of the player and treasure, snapped to integer pixels
         bn::rect player_rect = bn::rect(player.x().round_integer(),
                                         player.y().round_integer(),
@@ -165,7 +186,8 @@ int main()
         rng.update();
 
         // If the player hits start the game restarts
-        if (bn::keypad::start_pressed()){
+        if (bn::keypad::start_pressed())
+        {
             player.set_position(player_start_pos_x, player_start_pos_y);
             treasure.set_position(dot_start_pos_x, dot_start_pos_y);
             boosts = 3;
