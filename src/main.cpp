@@ -52,7 +52,7 @@ int main()
 {
     bn::core::init();
 
-    bn::backdrop::set_color(bn::color(14, 25, 31)); //sky blue backdrop color
+    bn::backdrop::set_color(bn::color(14, 25, 31)); // sky blue backdrop color
     bn::random rng = bn::random();
 
     // Will hold the sprites for the score
@@ -100,6 +100,14 @@ int main()
         if (bn::keypad::down_held() && player.y() == bottom_edge)
         {
             player.set_y(top_edge);
+        }
+
+        // If START is pressed restart the game
+        if (bn::keypad::start_pressed())
+        {
+            score = 0;
+            player.set_position(player_start_pos_x, player_start_pos_y);
+            treasure.set_position(dot_start_pos_x, dot_start_pos_y);
         }
 
         // The bounding boxes of the player and treasure, snapped to integer pixels
