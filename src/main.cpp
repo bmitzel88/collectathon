@@ -133,6 +133,17 @@ int main()
         // Update RNG seed every frame so we don't get the same sequence of positions every time
         rng.update();
 
+        // If the player hits start the game restarts
+        if (bn::keypad::start_pressed()){
+            player.set_x(player_start_pos_x);
+            player.set_y(player_start_pos_y);
+
+            treasure.set_x(dot_start_pos_x);
+            treasure.set_y(dot_start_pos_y);
+
+            score = 0;
+        }
+
         bn::core::update();
     }
 }
