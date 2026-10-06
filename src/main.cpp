@@ -42,12 +42,11 @@ static constexpr int player_start_pos_y = 0;
 static constexpr int dot_start_pos_x = 50;
 static constexpr int dot_start_pos_y = 0;
 
-// this is a test
-
 int main()
 {
     bn::core::init();
 
+    bn::backdrop::set_color(bn::color(14, 25, 31)); //sky blue backdrop color
     bn::random rng = bn::random();
 
     // Will hold the sprites for the score
