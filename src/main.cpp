@@ -33,12 +33,16 @@ static constexpr int MAX_X = bn::display::width() / 2;
 // Number of characters required to show the longest numer possible in an int (-2147483647)
 static constexpr int MAX_SCORE_CHARS = 11;
 
+// Timer location
+static constexpr int TIMER_X = 50;
+static constexpr int TIMER_Y = -50;
+
 // Score location
-static constexpr int SCORE_X = 50;
+static constexpr int SCORE_X = 70;
 static constexpr int SCORE_Y = -70;
 
 // Remaining boosts location
-static constexpr int boost_x = -115;
+static constexpr int boost_x = -70;
 static constexpr int boost_y = 70;
 
 // Player starting location
@@ -62,13 +66,16 @@ static constexpr int right_edge = 120;
 static constexpr int bottom_edge = 80;
 static constexpr int top_edge = -80;
 
-void restart_game(bn::sprite_ptr player, bn::sprite_ptr treasure, int &score, int &boosts)
+void restart_game(bn::sprite_ptr player, bn::sprite_ptr treasure, int &score,
+                  int &boosts, int &timer_seconds_counter, int &timer_frame_counter)
 {
     player.set_position(player_start_pos_x, player_start_pos_y);
     treasure.set_position(dot_start_pos_x, dot_start_pos_y);
 
     boosts = 3;
     score = 0;
+    timer_frame_counter = 0;
+    timer_seconds_counter = 0;
 }
 
 int main()
@@ -77,6 +84,9 @@ int main()
 
     bn::backdrop::set_color(bn::color(14, 25, 31)); // sky blue backdrop color
     bn::random rng = bn::random();
+
+    // Will hold the sprites for the timer
+    bn::vector<bn::sprite_ptr, MAX_SCORE_CHARS> timer_sprites = {};
 
     // Will hold the sprites for the score
     bn::vector<bn::sprite_ptr, MAX_SCORE_CHARS> score_sprites = {};
@@ -92,6 +102,7 @@ int main()
     bool is_boosting = false;
     int boost_frame_counter = 0;
     int timer_frame_counter = 0;
+    int timer_seconds_counter = 0;
 
     // Enemy movement variables
     int enemy_speed = 2; // 2 pixels per frame
@@ -112,14 +123,18 @@ int main()
 
         // Handle timer
         timer_frame_counter++;
-        if (timer_frame_counter >= 3600)
+        if (timer_seconds_counter >= 60)
         { // 1 minute
-            restart_game(player, treasure, score, boosts);
+            restart_game(player, treasure, score, boosts, timer_seconds_counter, timer_frame_counter);
         }
-        else if (timer_frame_counter >)
+        else if (timer_frame_counter >= 60)
+        {
+            timer_seconds_counter++;
+            timer_frame_counter = 0;
+        }
 
-            // Handle enemy movement
-            enemy1.set_y(enemy1.y() - enemy_speed * enemy1_direction);
+        // Handle enemy movement
+        enemy1.set_y(enemy1.y() - enemy_speed * enemy1_direction);
 
         if (enemy1.y() <= enemy1_upbounds)
         {
@@ -207,7 +222,8 @@ int main()
         // If START is pressed restart the game
         if (bn::keypad::start_pressed())
         {
-            restart_game(player, treasure, score, boosts); // restart game with function
+            // restart game with function
+            restart_game(player, treasure, score, boosts, timer_seconds_counter, timer_frame_counter);
         }
 
         // The bounding boxes of the player and treasure, snapped to integer pixels
@@ -242,8 +258,15 @@ int main()
         // If enemy bounding boxes overlap with the player, restart the game
         if (enemy1_rect.intersects(player_rect) || enemy2_rect.intersects(player_rect))
         {
-            restart_game(player, treasure, score, boosts);
+            restart_game(player, treasure, score, boosts, timer_seconds_counter, timer_frame_counter);
         }
+
+        // Update timer display
+        bn::string<MAX_SCORE_CHARS> timer_string = bn::to_string<MAX_SCORE_CHARS>(timer_seconds_counter);
+        timer_sprites.clear();
+        text_generator.generate(TIMER_X, TIMER_Y,
+                                "TIME: " + timer_string,
+                                timer_sprites);
 
         // Update score display
         bn::string<MAX_SCORE_CHARS> score_string = bn::to_string<MAX_SCORE_CHARS>(score);
@@ -256,7 +279,7 @@ int main()
         bn::string<MAX_SCORE_CHARS> boost_string = bn::to_string<MAX_SCORE_CHARS>(boosts);
         boost_sprites.clear();
         text_generator.generate(boost_x, boost_y,
-                                "Boosts: "  + boost_string,
+                                "Boosts: " + boost_string,
                                 boost_sprites);
 
         // Update RNG seed every frame so we don't get the same sequence of positions every time
@@ -265,7 +288,7 @@ int main()
         // If the player hits start the game restarts
         if (bn::keypad::start_pressed())
         {
-            restart_game(player, treasure, score, boosts);
+            restart_game(player, treasure, score, boosts, timer_seconds_counter, timer_frame_counter);
         }
 
         bn::core::update();
