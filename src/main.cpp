@@ -12,11 +12,12 @@
 #include <bn_color.h>
 #include "bn_sprite_items_dot.h"
 #include "bn_sprite_items_square.h"
+#include "bn_sprite_items_enemy.h"
 #include "common_fixed_8x16_font.h"
 
 // Pixels / Frame player moves at
-static constexpr bn::fixed SPEED = 2; // Changed speed from 1 to 2
-static constexpr bn::fixed boost_speed = 4;
+static constexpr bn::fixed SPEED = 1; // Changed speed from 1 to 2
+static constexpr bn::fixed boost_speed = 2;
 
 // Width and height of the the player and treasure bounding boxes
 static constexpr bn::size PLAYER_SIZE = {8, 8};
@@ -42,6 +43,13 @@ static constexpr int player_start_pos_y = 0;
 // Dot starting position
 static constexpr int dot_start_pos_x = 50;
 static constexpr int dot_start_pos_y = 0;
+
+// Enemy starting position
+static constexpr int enemy1_start_pos_x = 0;
+static constexpr int enemy1_start_pos_y = 50;
+
+static constexpr int enemy2_start_pos_x = 0;
+static constexpr int enemy2_start_pos_y = -50;
 
 // Screen Edges
 static constexpr int left_edge = -120;
@@ -69,6 +77,8 @@ int main()
 
     bn::sprite_ptr player = bn::sprite_items::square.create_sprite(player_start_pos_x, player_start_pos_y);
     bn::sprite_ptr treasure = bn::sprite_items::dot.create_sprite(dot_start_pos_x, dot_start_pos_y);
+    bn::sprite_ptr enemy1 = bn::sprite_items::enemy.create_sprite(enemy1_start_pos_x, enemy1_start_pos_y);
+    bn::sprite_ptr enemy2 = bn::sprite_items::enemy.create_sprite(enemy2_start_pos_x, enemy2_start_pos_y);
 
     while (true)
     {
@@ -116,19 +126,19 @@ int main()
         }
 
         // Send the player to the other side of the screen when they go out of bounds
-        if (bn::keypad::right_held() && player.x() == right_edge)
+        if (bn::keypad::right_held() && player.x() >= right_edge)
         {
             player.set_x(left_edge);
         }
-        if (bn::keypad::left_held() && player.x() == left_edge)
+        if (bn::keypad::left_held() && player.x() <= left_edge)
         {
             player.set_x(right_edge);
         }
-        if (bn::keypad::up_held() && player.y() == top_edge)
+        if (bn::keypad::up_held() && player.y() <= top_edge)
         {
             player.set_y(bottom_edge);
         }
-        if (bn::keypad::down_held() && player.y() == bottom_edge)
+        if (bn::keypad::down_held() && player.y() >= bottom_edge)
         {
             player.set_y(top_edge);
         }
