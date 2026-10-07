@@ -89,6 +89,15 @@ int main()
     bn::sprite_ptr enemy1 = bn::sprite_items::enemy.create_sprite(enemy1_start_pos_x, enemy1_start_pos_y);
     bn::sprite_ptr enemy2 = bn::sprite_items::enemy.create_sprite(enemy2_start_pos_x, enemy2_start_pos_y);
 
+    void restart_game(bn::sprite_ptr player, bn::sprite_ptr treasure, int score, int boosts)
+    {
+        player.set_position(player_start_pos_x, player_start_pos_y);
+        treasure.set_position(dot_start_pos_x, dot_start_pos_y);
+
+        boosts = 3;
+        score = 0;
+    }
+
     while (true)
     {
 
@@ -181,9 +190,7 @@ int main()
         // If START is pressed restart the game
         if (bn::keypad::start_pressed())
         {
-            score = 0;
-            player.set_position(player_start_pos_x, player_start_pos_y);
-            treasure.set_position(dot_start_pos_x, dot_start_pos_y);
+            restart_game(player, treasure, score, boosts); // restart game with function
         }
 
         // The bounding boxes of the player and treasure, snapped to integer pixels
