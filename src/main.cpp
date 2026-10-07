@@ -34,15 +34,15 @@ static constexpr int MAX_X = bn::display::width() / 2;
 static constexpr int MAX_SCORE_CHARS = 11;
 
 // Timer location
-static constexpr int TIMER_X = 50;
-static constexpr int TIMER_Y = -50;
+static constexpr int TIMER_X = -115;
+static constexpr int TIMER_Y = -70;
 
 // Score location
-static constexpr int SCORE_X = 70;
+static constexpr int SCORE_X = 45;
 static constexpr int SCORE_Y = -70;
 
 // Remaining boosts location
-static constexpr int boost_x = -70;
+static constexpr int boost_x = -115;
 static constexpr int boost_y = 70;
 
 // Player starting location
@@ -85,12 +85,14 @@ int main()
     bn::backdrop::set_color(bn::color(14, 25, 31)); // sky blue backdrop color
     bn::random rng = bn::random();
 
+    // Initializes the sprite sheet for the font
+    bn::sprite_text_generator text_generator(common::fixed_8x16_sprite_font);
+
     // Will hold the sprites for the timer
     bn::vector<bn::sprite_ptr, MAX_SCORE_CHARS> timer_sprites = {};
 
     // Will hold the sprites for the score
     bn::vector<bn::sprite_ptr, MAX_SCORE_CHARS> score_sprites = {};
-    bn::sprite_text_generator text_generator(common::fixed_8x16_sprite_font);
 
     // Will hold the sprites for the remaining boosts
     bn::vector<bn::sprite_ptr, MAX_SCORE_CHARS> boost_sprites = {};
