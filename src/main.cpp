@@ -37,6 +37,10 @@ static constexpr int MAX_SCORE_CHARS = 11;
 static constexpr int SCORE_X = 70;
 static constexpr int SCORE_Y = -70;
 
+// Remaining boosts location
+static constexpr int boost_x = -70;
+static constexpr int boost_y = 70;
+
 // Player starting location
 static constexpr int player_start_pos_x = -50;
 static constexpr int player_start_pos_y = 0;
@@ -77,6 +81,9 @@ int main()
     // Will hold the sprites for the score
     bn::vector<bn::sprite_ptr, MAX_SCORE_CHARS> score_sprites = {};
     bn::sprite_text_generator text_generator(common::fixed_8x16_sprite_font);
+
+    // Will hold the sprites for the remaining boosts
+    bn::vector<bn::sprite_ptr, MAX_SCORE_CHARS> boost_sprites = {};
 
     int score = 0;
 
@@ -235,6 +242,13 @@ int main()
         text_generator.generate(SCORE_X, SCORE_Y,
                                 score_string,
                                 score_sprites);
+
+        // Update remaining boosts
+        bn::string<MAX_SCORE_CHARS> boost_string = bn::to_string<MAX_SCORE_CHARS>(boosts);
+        boost_sprites.clear();
+        text_generator.generate(boost_x, boost_y,
+                                boost_string,
+                                boost_sprites);
 
         // Update RNG seed every frame so we don't get the same sequence of positions every time
         rng.update();
