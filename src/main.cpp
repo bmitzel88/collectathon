@@ -34,11 +34,11 @@ static constexpr int MAX_X = bn::display::width() / 2;
 static constexpr int MAX_SCORE_CHARS = 11;
 
 // Score location
-static constexpr int SCORE_X = 70;
+static constexpr int SCORE_X = 50;
 static constexpr int SCORE_Y = -70;
 
 // Remaining boosts location
-static constexpr int boost_x = -70;
+static constexpr int boost_x = -115;
 static constexpr int boost_y = 70;
 
 // Player starting location
@@ -240,14 +240,14 @@ int main()
         bn::string<MAX_SCORE_CHARS> score_string = bn::to_string<MAX_SCORE_CHARS>(score);
         score_sprites.clear();
         text_generator.generate(SCORE_X, SCORE_Y,
-                                score_string,
+                                "Score: " + score_string,
                                 score_sprites);
 
         // Update remaining boosts
         bn::string<MAX_SCORE_CHARS> boost_string = bn::to_string<MAX_SCORE_CHARS>(boosts);
         boost_sprites.clear();
         text_generator.generate(boost_x, boost_y,
-                                boost_string,
+                                "Boosts: "  + boost_string,
                                 boost_sprites);
 
         // Update RNG seed every frame so we don't get the same sequence of positions every time
