@@ -75,6 +75,15 @@ int main()
     bool is_boosting = false;
     int boost_frame_counter = 0;
 
+    // Enemy movement variables
+    int enemy_speed = 2; // 2 pixels per frame
+    int enemy1_direction = -1;
+    int enemy2_direction = 1;
+    const int enemy1_upbounds = -80;
+    const int enemy1_downbounds = 0;
+    const int enemy2_upbounds = 0;
+    const int enemy2_downbounds = 80;
+
     bn::sprite_ptr player = bn::sprite_items::square.create_sprite(player_start_pos_x, player_start_pos_y);
     bn::sprite_ptr treasure = bn::sprite_items::dot.create_sprite(dot_start_pos_x, dot_start_pos_y);
     bn::sprite_ptr enemy1 = bn::sprite_items::enemy.create_sprite(enemy1_start_pos_x, enemy1_start_pos_y);
@@ -82,6 +91,32 @@ int main()
 
     while (true)
     {
+
+        // Handle enemy movement
+        enemy1.set_y(enemy1.y() - enemy_speed * enemy1_direction);
+
+        if (enemy1.y() <= enemy1_upbounds)
+        {
+            enemy1_direction = -1;
+        }
+
+        if (enemy1.y() >= enemy1_downbounds)
+        {
+            enemy1_direction = 1;
+        }
+
+        enemy2.set_y(enemy2.y() + enemy_speed * enemy2_direction);
+
+        if (enemy2.y() <= enemy2_upbounds)
+        {
+            enemy2_direction = 1;
+        }
+
+        if (enemy2.y() >= enemy2_downbounds)
+        {
+            enemy2_direction = -1;
+        }
+
         // Handle Boost Activation & Timer
         if (!is_boosting)
         {
