@@ -22,6 +22,7 @@ static constexpr bn::fixed boost_speed = 2;
 // Width and height of the the player and treasure bounding boxes
 static constexpr bn::size PLAYER_SIZE = {8, 8};
 static constexpr bn::size TREASURE_SIZE = {8, 8};
+static constexpr bn::size ENEMY_SIZE = {8, 8};
 
 // Full bounds of the screen
 static constexpr int MIN_Y = -bn::display::height() / 2;
@@ -57,6 +58,15 @@ static constexpr int right_edge = 120;
 static constexpr int bottom_edge = 80;
 static constexpr int top_edge = -80;
 
+void restart_game(bn::sprite_ptr player, bn::sprite_ptr treasure, int &score, int &boosts)
+{
+    player.set_position(player_start_pos_x, player_start_pos_y);
+    treasure.set_position(dot_start_pos_x, dot_start_pos_y);
+
+    boosts = 3;
+    score = 0;
+}
+
 int main()
 {
     bn::core::init();
@@ -88,15 +98,6 @@ int main()
     bn::sprite_ptr treasure = bn::sprite_items::dot.create_sprite(dot_start_pos_x, dot_start_pos_y);
     bn::sprite_ptr enemy1 = bn::sprite_items::enemy.create_sprite(enemy1_start_pos_x, enemy1_start_pos_y);
     bn::sprite_ptr enemy2 = bn::sprite_items::enemy.create_sprite(enemy2_start_pos_x, enemy2_start_pos_y);
-
-    void restart_game(bn::sprite_ptr player, bn::sprite_ptr treasure, int score, int boosts)
-    {
-        player.set_position(player_start_pos_x, player_start_pos_y);
-        treasure.set_position(dot_start_pos_x, dot_start_pos_y);
-
-        boosts = 3;
-        score = 0;
-    }
 
     while (true)
     {
@@ -202,6 +203,14 @@ int main()
                                           treasure.y().round_integer(),
                                           TREASURE_SIZE.width(),
                                           TREASURE_SIZE.height());
+        bn::rect enemy1_rect = bn::rect(enemy1.x().round_integer(),
+                                        enemy1.y().round_integer(),
+                                        ENEMY_SIZE.width(),
+                                        ENEMY_SIZE.height());
+        bn::rect enemy2_rect = bn::rect(enemy2.x().round_integer(),
+                                        enemy2.y().round_integer(),
+                                        ENEMY_SIZE.width(),
+                                        ENEMY_SIZE.height());
 
         // If the bounding boxes overlap, set the treasure to a new location an increase score
         if (player_rect.intersects(treasure_rect))
@@ -212,6 +221,12 @@ int main()
             treasure.set_position(new_x, new_y);
 
             score++;
+        }
+
+        // If enemy bounding boxes overlap with the player, restart the game
+        if (enemy1_rect.intersects(player_rect) || enemy2_rect.intersects(player_rect))
+        {
+            restart_game(player, treasure, score, boosts);
         }
 
         // Update score display
