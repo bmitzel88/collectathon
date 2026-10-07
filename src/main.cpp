@@ -91,6 +91,7 @@ int main()
     int boosts = 3;
     bool is_boosting = false;
     int boost_frame_counter = 0;
+    int timer_frame_counter = 0;
 
     // Enemy movement variables
     int enemy_speed = 2; // 2 pixels per frame
@@ -109,8 +110,16 @@ int main()
     while (true)
     {
 
-        // Handle enemy movement
-        enemy1.set_y(enemy1.y() - enemy_speed * enemy1_direction);
+        // Handle timer
+        timer_frame_counter++;
+        if (timer_frame_counter >= 3600)
+        { // 1 minute
+            restart_game(player, treasure, score, boosts);
+        }
+        else if (timer_frame_counter >)
+
+            // Handle enemy movement
+            enemy1.set_y(enemy1.y() - enemy_speed * enemy1_direction);
 
         if (enemy1.y() <= enemy1_upbounds)
         {
@@ -256,11 +265,7 @@ int main()
         // If the player hits start the game restarts
         if (bn::keypad::start_pressed())
         {
-            player.set_position(player_start_pos_x, player_start_pos_y);
-            treasure.set_position(dot_start_pos_x, dot_start_pos_y);
-            boosts = 3;
-
-            score = 0;
+            restart_game(player, treasure, score, boosts);
         }
 
         bn::core::update();
