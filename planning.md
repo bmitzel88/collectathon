@@ -22,5 +22,12 @@ Make a speed boost
 
 ## Brainstorming game ideas
 
+Make enemys move and end the game (Done!)
+Make boost counter (Partially Done!)
+Make game timer (end the game when done)
+
+Future:
+Make highscore
+
 ## Plan for implementing game
 
