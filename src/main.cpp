@@ -13,6 +13,7 @@
 #include "bn_sprite_items_dot.h"
 #include "bn_sprite_items_square.h"
 #include "bn_sprite_items_enemy.h"
+#include "bn_sprite_items_newenemy.h"
 #include "common_fixed_8x16_font.h"
 
 // Pixels / Frame player moves at
@@ -22,7 +23,7 @@ static constexpr bn::fixed boost_speed = 2;
 // Width and height of the the player and treasure bounding boxes
 static constexpr bn::size PLAYER_SIZE = {8, 8};
 static constexpr bn::size TREASURE_SIZE = {8, 8};
-static constexpr bn::size ENEMY_SIZE = {8, 8};
+static constexpr bn::size ENEMY_SIZE = {16, 16};
 
 // Full bounds of the screen
 static constexpr int MIN_Y = -bn::display::height() / 2;
@@ -117,8 +118,8 @@ int main()
 
     bn::sprite_ptr player = bn::sprite_items::square.create_sprite(player_start_pos_x, player_start_pos_y);
     bn::sprite_ptr treasure = bn::sprite_items::dot.create_sprite(dot_start_pos_x, dot_start_pos_y);
-    bn::sprite_ptr enemy1 = bn::sprite_items::enemy.create_sprite(enemy1_start_pos_x, enemy1_start_pos_y);
-    bn::sprite_ptr enemy2 = bn::sprite_items::enemy.create_sprite(enemy2_start_pos_x, enemy2_start_pos_y);
+    bn::sprite_ptr enemy1 = bn::sprite_items::newenemy.create_sprite(enemy1_start_pos_x, enemy1_start_pos_y);
+    bn::sprite_ptr enemy2 = bn::sprite_items::newenemy.create_sprite(enemy2_start_pos_x, enemy2_start_pos_y);
 
     while (true)
     {
