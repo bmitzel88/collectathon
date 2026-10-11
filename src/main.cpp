@@ -10,7 +10,7 @@
 #include <bn_string.h>
 #include <bn_backdrop.h>
 #include <bn_color.h>
-#include "bn_sprite_items_dot.h"
+#include "bn_sprite_items_treasure.h"
 #include "bn_sprite_items_square.h"
 #include "bn_sprite_items_enemy.h"
 #include "common_fixed_8x16_font.h"
@@ -21,7 +21,7 @@ static constexpr bn::fixed boost_speed = 2;
 
 // Width and height of the the player and treasure bounding boxes
 static constexpr bn::size PLAYER_SIZE = {8, 8};
-static constexpr bn::size TREASURE_SIZE = {8, 8};
+static constexpr bn::size TREASURE_SIZE = {12, 16};
 static constexpr bn::size ENEMY_SIZE = {8, 8};
 
 // Full bounds of the screen
@@ -50,8 +50,8 @@ static constexpr int player_start_pos_x = -50;
 static constexpr int player_start_pos_y = 0;
 
 // Dot starting position
-static constexpr int dot_start_pos_x = 50;
-static constexpr int dot_start_pos_y = 0;
+static constexpr int treasure_start_pos_x = 50;
+static constexpr int treasure_start_pos_y = 0;
 
 // Enemy starting position
 static constexpr int enemy1_start_pos_x = 0;
@@ -70,7 +70,7 @@ void restart_game(bn::sprite_ptr player, bn::sprite_ptr treasure, int &score,
                   int &boosts, int &timer_seconds_counter, int &timer_frame_counter)
 {
     player.set_position(player_start_pos_x, player_start_pos_y);
-    treasure.set_position(dot_start_pos_x, dot_start_pos_y);
+    treasure.set_position(treasure_start_pos_x, treasure_start_pos_y);
 
     boosts = 3;
     score = 0;
@@ -116,7 +116,7 @@ int main()
     const int enemy2_downbounds = 80;
 
     bn::sprite_ptr player = bn::sprite_items::square.create_sprite(player_start_pos_x, player_start_pos_y);
-    bn::sprite_ptr treasure = bn::sprite_items::dot.create_sprite(dot_start_pos_x, dot_start_pos_y);
+    bn::sprite_ptr treasure = bn::sprite_items:: treasure.create_sprite(treasure_start_pos_x, treasure_start_pos_y);
     bn::sprite_ptr enemy1 = bn::sprite_items::enemy.create_sprite(enemy1_start_pos_x, enemy1_start_pos_y);
     bn::sprite_ptr enemy2 = bn::sprite_items::enemy.create_sprite(enemy2_start_pos_x, enemy2_start_pos_y);
 
