@@ -11,19 +11,18 @@
 #include <bn_backdrop.h>
 #include <bn_color.h>
 #include "bn_sprite_items_treasure.h"
-#include "bn_sprite_items_square.h"
+#include "bn_sprite_items_player.h"
 #include "bn_sprite_items_enemy.h"
-#include "bn_sprite_items_newenemy.h"
 #include "common_fixed_8x16_font.h"
 
 // Pixels / Frame player moves at
 static constexpr bn::fixed SPEED = 1; // Changed speed from 1 to 2
 static constexpr bn::fixed boost_speed = 2;
 
-// Width and height of the the player and treasure bounding boxes
+// Width and height of the bounding boxes
 static constexpr bn::size PLAYER_SIZE = {8, 8};
 static constexpr bn::size TREASURE_SIZE = {12, 16};
-static constexpr bn::size ENEMY_SIZE = {16, 16};
+static constexpr bn::size ENEMY_SIZE = {14, 14};
 
 // Full bounds of the screen
 static constexpr int MIN_Y = -bn::display::height() / 2;
@@ -109,17 +108,17 @@ int main()
 
     // Enemy movement variables
     int enemy_speed = 2; // 2 pixels per frame
-    int enemy1_direction = -1;
+    int enemy1_direction = 1;
     int enemy2_direction = 1;
-    const int enemy1_upbounds = -80;
-    const int enemy1_downbounds = 0;
-    const int enemy2_upbounds = 0;
-    const int enemy2_downbounds = 80;
+    const int enemy1_upbounds = 7;
+    const int enemy1_downbounds = 72;
+    const int enemy2_upbounds = -72;
+    const int enemy2_downbounds = -7;
 
-    bn::sprite_ptr player = bn::sprite_items::square.create_sprite(player_start_pos_x, player_start_pos_y);
+    bn::sprite_ptr player = bn::sprite_items::player.create_sprite(player_start_pos_x, player_start_pos_y);
     bn::sprite_ptr treasure = bn::sprite_items:: treasure.create_sprite(treasure_start_pos_x, treasure_start_pos_y);
-    bn::sprite_ptr enemy1 = bn::sprite_items::newenemy.create_sprite(enemy1_start_pos_x, enemy1_start_pos_y);
-    bn::sprite_ptr enemy2 = bn::sprite_items::newenemy.create_sprite(enemy2_start_pos_x, enemy2_start_pos_y);
+    bn::sprite_ptr enemy1 = bn::sprite_items::enemy.create_sprite(enemy1_start_pos_x, enemy1_start_pos_y);
+    bn::sprite_ptr enemy2 = bn::sprite_items::enemy.create_sprite(enemy2_start_pos_x, enemy2_start_pos_y);
 
     while (true)
     {
