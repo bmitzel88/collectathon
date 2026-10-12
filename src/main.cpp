@@ -116,7 +116,7 @@ int main()
     const int enemy2_downbounds = -7;
 
     bn::sprite_ptr player = bn::sprite_items::player.create_sprite(player_start_pos_x, player_start_pos_y);
-    bn::sprite_ptr treasure = bn::sprite_items:: treasure.create_sprite(treasure_start_pos_x, treasure_start_pos_y);
+    bn::sprite_ptr treasure = bn::sprite_items::treasure.create_sprite(treasure_start_pos_x, treasure_start_pos_y);
     bn::sprite_ptr enemy1 = bn::sprite_items::enemy.create_sprite(enemy1_start_pos_x, enemy1_start_pos_y);
     bn::sprite_ptr enemy2 = bn::sprite_items::enemy.create_sprite(enemy2_start_pos_x, enemy2_start_pos_y);
 
@@ -203,22 +203,22 @@ int main()
             player.set_y(player.y() + current_speed);
         }
 
-        // Send the player to the other side of the screen when they go out of bounds
+        // Stop the player when they go out of bounds
         if (bn::keypad::right_held() && player.x() >= right_edge)
         {
-            player.set_x(left_edge);
+            player.set_x(right_edge - 2);
         }
         if (bn::keypad::left_held() && player.x() <= left_edge)
         {
-            player.set_x(right_edge);
+            player.set_x(left_edge + 2);
         }
         if (bn::keypad::up_held() && player.y() <= top_edge)
         {
-            player.set_y(bottom_edge);
+            player.set_y(top_edge + 2);
         }
         if (bn::keypad::down_held() && player.y() >= bottom_edge)
         {
-            player.set_y(top_edge);
+            player.set_y(bottom_edge - 2);
         }
 
         // If START is pressed restart the game
