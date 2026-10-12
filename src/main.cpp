@@ -224,7 +224,6 @@ int main()
         // If START is pressed restart the game
         if (bn::keypad::start_pressed())
         {
-            // restart game with function
             restart_game(player, treasure, score, boosts, timer_seconds_counter, timer_frame_counter);
         }
 
@@ -286,12 +285,6 @@ int main()
 
         // Update RNG seed every frame so we don't get the same sequence of positions every time
         rng.update();
-
-        // If the player hits start the game restarts
-        if (bn::keypad::start_pressed())
-        {
-            restart_game(player, treasure, score, boosts, timer_seconds_counter, timer_frame_counter);
-        }
 
         bn::core::update();
     }
